@@ -1,4 +1,4 @@
-Here's a comprehensive **README.md** template for your tumor classification project that clearly explains everything:
+
 
 ```markdown
 # 🧠 Brain Tumor Classification System
