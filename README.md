@@ -106,6 +106,6 @@ MS-FCN(
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 📧 Contact
-Bhanu Teja - bhanuteja@email.com  
+Bhanu Teja - bhanutejaybt.2004@email.com  
 Project Link: [https://github.com/bhanuteja3264/tumor-classifier](https://github.com/bhanuteja3264/tumor-classifier)
 ```
