@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.swp
+
+# Virtual Environment
+venv/
+
+# Data files
+data/
+
+# Model files
+models/
+
+# Environment variables
+.env
+
+# IDE specific
+.vscode/
+.idea/

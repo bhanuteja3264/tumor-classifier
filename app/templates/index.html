@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tumor Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Brain Tumor Detection</h1>
+        <p>Upload a medical scan image to check for tumor presence</p>
+        
+        <form method="POST" action="/predict" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required>
+            <button type="submit">Analyze</button>
+        </form>
+        
+        {% if result %}
+        <div class="result {% if result.prediction == 'Tumor' %}tumor{% elif result.prediction == 'No Tumor' %}no-tumor{% else %}uncertain{% endif %}">
+            <h2>Result: {{ result.prediction }}</h2>
+            {% if result.message %}
+            <p>{{ result.message }}</p>
+            {% endif %}
+            
+            {% if result.probability is defined %}
+            <div class="confidence-meter">
+                <div class="confidence-bar" style="width: {{ result.confidence * 100 }}%"></div>
+                <span>Confidence: {{ "%.1f"|format(result.confidence * 100) }}%</span>
+            </div>
+            <p>Raw probability: {{ "%.4f"|format(result.probability) }}</p>
+            {% endif %}
+            
+            {% if image_path %}
+            <div class="image-preview">
+                <img src="{{ url_for('static', filename='uploads/' + image_path) }}" alt="Uploaded Image">
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
