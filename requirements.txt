@@ -1,0 +1,7 @@
+flask==2.3.2
+tensorflow-cpu==2.16.1  # Use CPU version if GPU not needed
+opencv-python-headless==4.7.0.72
+numpy>=1.23.5,<2.0.0    # More flexible version
+scikit-learn==1.2.0
+werkzeug==2.3.6
+setuptools==68.0.0      # Explicit setuptools version

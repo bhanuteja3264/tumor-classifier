@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tumor Classifier</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .result-table {
+            margin-top: 20px;
+        }
+        .preview-image {
+            max-width: 150px;
+            max-height: 150px;
+        }
+        #upload-form {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">Tumor Image Classifier</h1>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Upload Images</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="upload-form" action="/predict" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="files" class="form-label">Select multiple images:</label>
+                                <input class="form-control" type="file" id="files" name="files[]" accept="image/*" multiple required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Analyze Images</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                {% if results %}
+                <div class="card mt-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3>Results</h3>
+                        {% if excel_available %}
+                        <a href="{{ url_for('download_file', filename=excel_filename) }}" class="btn btn-success">Download Excel Report</a>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped result-table">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Filename</th>
+                                        <th>Tumor Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for result in results %}
+                                    <tr>
+                                        <td>
+                                            {% if result.image_url %}
+                                            <a href="{{ url_for('uploaded_file', filename=result.image_url) }}" target="_blank">
+                                                <img src="{{ url_for('uploaded_file', filename=result.image_url) }}" class="preview-image" alt="{{ result.filename }}">
+                                            </a>
+                                            {% else %}
+                                            <span class="text-muted">Image unavailable</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ result.filename }}</td>
+                                        <td>
+                                            {% if result.tumor_status == "Tumor" %}
+                                            <span class="badge bg-danger">Tumor</span>
+                                            {% else %}
+                                            <span class="badge bg-success">No Tumor</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
